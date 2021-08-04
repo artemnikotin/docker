@@ -123,13 +123,13 @@ open https://hub.docker.com/settings/security # to make Access Token
 docker login -u artemnikotin -p {{ access-token }} # login default hub.docker.com registry
 ```
 
-- Сценарий "Как мне скачать образ?"
+- Сценарий "Как скачать образ?"
 ```shell
 docker image pull alpine
 docker system df
 ````
 
-- Сценарий "Как мне запустить контейнер?"
+- Сценарий "Как запустить контейнер?"
 ```shell
 docker container ls [--all]
 docker container run --name demo -it alpine
@@ -137,7 +137,7 @@ docker container run --name demo -it alpine
 /# exit 
 ```
 
-- Сценарий "Как мне удалить контейнер?"
+- Сценарий "Как удалить контейнер?"
 ```shell
 docker container ls [--all]
 docker container rm [--force] demo
@@ -241,55 +241,55 @@ Hands-on practice quest #01: pre-built disk image lifecycle (15+5)
 - [ ] Given пары участников
 
 - [ ] When участники именуют сценарии, выполняют команды и анализируют их вывод и поведение
-- Сценарий "Как ...?"
+- Сценарий "Как получить список скаченых образов?"
 ```shell
 docker image ls # TODO: собственные пометки участников для будущего использования в проектах
 ```
 
-- Сценарий "Как ...?"
+- Сценарий "Как скачать образ?"
 ```shell
 docker image pull alpine
 docker image ls
 ```
 
-- Сценарий "Как ...?"
+- Сценарий "Как посмотреть историю и детали образа в определенном формате?"
 ```shell
 docker image history alpine
 
 docker image inspect alpine
-docker image inspect --format='{{.Id}} -> {{.Parent}}' alpine
+docker image inspect alpine --format="{{.Id}} -> {{.Parent}}"
 ```
 
-- Сценарий "Как ...?"
+- Сценарий "Как посмотреть и закомитить изменения?"
 ```shell
 docker container run --name demo -it alpine
 /# touch side-effect.txt
 /# exit
 docker container diff demo
-docker container commit demo {{ registry-account }}/demo
+docker container commit demo artemnikotin/demo
 docker image ls
 ```
 
-- Сценарий "Как ...?"
+- Сценарий "Как создать версию образа?"
 ```shell
-docker image tag {{ registry-account }}/demo:latest {{ registry-account }}/demo:1.0.0
+docker image tag artemnikotin/demo:latest artemnikotin/demo:1.0.0
 docker image ls
 ```
 
-- Сценарий "Как ...?"
+- Сценарий "Как сохранить образ в хабе?"
 ```shell
-docker image push {{ registry-account }}/demo:1.0.0
+docker image push artemnikotin/demo:1.0.0
 ```
 
-- Сценарий "Как ...?"
+- Сценарий "Как удалить образ?"
 ```shell
 docker image ls
 docker container rm demo
 docker image prune
 docker image ls
-docker image rm {{ registry-account }}/demo:1.0.0
+docker image rm artemnikotin/demo:1.0.0
 docker image ls
-docker image rm {{ registry-account }}/demo:latest
+docker image rm artemnikotin/demo:latest
 docker image ls
 docker image prune --all
 ```
