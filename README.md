@@ -270,7 +270,7 @@ docker container commit demo artemnikotin/demo
 docker image ls
 ```
 
-- Сценарий "Как создать версию образа?"
+- Сценарий "Как добавить новое символьное имя образа?"
 ```shell
 docker image tag artemnikotin/demo:latest artemnikotin/demo:1.0.0
 docker image ls
@@ -285,24 +285,24 @@ docker image push artemnikotin/demo:1.0.0
 ```shell
 docker image ls
 docker container rm demo
-docker image prune
+docker image prune # групповое удаление всех без символьного имени
 docker image ls
-docker image rm artemnikotin/demo:1.0.0
+docker image rm artemnikotin/demo:1.0.0 # удаление символьного имени образа
 docker image ls
-docker image rm artemnikotin/demo:latest
+docker image rm artemnikotin/demo:latest # удаление символьного имени и самого образа
 docker image ls
-docker image prune --all
+docker image prune --all # групповое удаление всех неассоциированных с контейнерами
 ```
 
 - [ ] Then участники делятся проблемами и отвечают на вопросы
 - Как проименовали сценарии?
-- Какие способы идентификации образа?
-- Какой тег у образа по умолчанию при создании коммитом?
-- Какой тег у образа по умолчанию при операции `pull`?
-- В чем физический смысл удаления образа командой `rm`?
-- Всегда ли удаляется образ по команде `rm`?
-- Что делает prune?
-- Что такое [_dangling_](https://docs.docker.com/config/pruning/#prune-images) image?
+- Какие способы идентификации образа? # символьное имя и/или сам образ
+- Какой тег у образа по умолчанию при создании коммитом? # :latest
+- Какой тег у образа по умолчанию при операции `pull`? # :latest
+- В чем физический смысл удаления образа командой `rm`? # удалить образ или символьное имя
+- Всегда ли удаляется образ по команде `rm`? # только если последний и нет ассоциированных контейнеров
+- Что делает prune? # групповое удаление
+- Что такое [_dangling_](https://docs.docker.com/config/pruning/#prune-images) image? # образ без символьного имени
 
 Жизненный цикл контейнера (20)
 -------------------------
