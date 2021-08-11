@@ -369,57 +369,64 @@ curl localhost:80
 
 - Сценарий "Как 'подключиться' к работающему контейнеру?"
 ```shell
-docker container logs
-docker container attach --sig-proxy=false # otherwise detach key `ctrl-c` will stop container 
-docker container top
-docker container exec -it /bin/sh
+docker container logs proxy
+docker container attach --sig-proxy=false proxy # otherwise detach key `ctrl-c` will stop container
+curl localhost:80 # in other terminal
+docker container top proxy
+docker container exec -it proxy /bin/sh
 ```
 
 - Сценарий "Как посмотреть свойства контейнера?"
 ```shell
-docker container port
-docker container inspect [| jq]
+docker container port proxy
+docker container inspect proxy [| jq]
 ```
 
 - Сценарий "Как поставить на паузу контейнер?"
 ```shell
-docker container pause
-docker container unpause
+docker container pause proxy
+docker container ls
+docker container unpause proxy
+docker container ls
 ```
 
 - Сценарий "Как создать контейнер с сервисом без запуска?"
 ```shell
-docker container create
+docker container create --name my-proxy --publish 80:80 nginx:1.19.4
+docker container ls --all
 ```
 
 - Сценарий "Как запустить созданный контейнер?"
 ```shell
-docker container start
+docker container stop proxy
+docker container start my-proxy
+docker container ls
 ```
 
 - Сценарий "Как остановить и запустить снова работающий контейнер?"
 ```shell
-docker container start
-docker container restart
-docker container stop # send SIGTERM, and then SIGKILL after grace period
-docker container kill # send SIGKILL, or specified signal
+docker container restart my-proxy # start even if not started
+docker container stop my-proxy # send SIGTERM, and then SIGKILL after grace period (Exited (0))
+docker container start my-proxy
+docker container kill # send SIGKILL, or specified signal (Exited (137))
 ```
 
 - Сценарий "Как удалить работающий контейнер?"
 ```shell
-docker container rm --force
+docker container rm --force my-proxy
 ```
 
 - Сценарий "Как удалить остановленный контейнер?"
 ```shell
-docker container rm
-docker container prune
+docker container rm proxy
+docker container prune # все остановленные контейнеры
 ```
 
 - Сценарий "Как узнать и сохранить container data (container layer)?"
 ```shell
 docker container diff
 docker container commit
+docker images --all
 ```
 
 - Опциональный сценарий "Как обменяться файлами с контейнером?"
@@ -433,7 +440,7 @@ docker container cp
 - Какое имя у контейнера по умолчанию?
 - В чем физический смысл удаления контейнера?
 - Что делает `prune`?
-- Сколько новых layers добавила команда `commit` к базовому образу?
+- Сколько новых layers добавила команда `commit` к базовому образу? # 1
 
 ---
 
