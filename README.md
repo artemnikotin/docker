@@ -576,13 +576,14 @@ cat Dockerfile # check out application's default configuration
 - Сценарий "Как собрать свой образ с приложением на базе Dockerfile?"
 ```shell
 cd application
-docker image build --tag {{ registry-account }}/backend:1.0.0 ./backend
+docker image build --tag artemnikotin/backend:1.0.0 ./backend
+docker images
 ```
 
 - Сценарий "Как сохранить образ в репозитории?"
 ```shell
 docker login
-docker image push
+docker image push artemnikotin/backend:1.0.0
 ```
 
 - Сценарий "Как запустить "одноразовый" контейнер на базе своего образа с приложением?"
@@ -592,13 +593,13 @@ docker container run \
  --rm \ # одноразовый: удалится после остановки
  --detach \ # -d
  --publish 8080:8080 \ # [host address:]8080:8080
- --env SPRING_PROFILES_ACTIVE=qa \ # в контейнере действует переменная окружения
+ --env SPRING_PROFILES_ACTIVE=preprod # ignored as we set profile in CMD
  --volume $(pwd)/log:/dbo/log \ # папка в конейнере /dbo/log отображена на папку на хосте /current-path/log
- {{ registry-account }}/backend:1.0.0 \ #  репозиторий и тег
+ artemnikotin/backend:1.0.0 \ #  репозиторий и тег
  --spring.profiles.active=qa # параметры командной строки
 
-curl localhost:8080/dbo/actuator/health
-curl -X POST localhost:8080/dbo/actuator/shutdown
+curl http://localhost:8080/dbo/actuator/health
+curl -X POST http://localhost:8080/dbo/actuator/shutdown
 
 docker container ls --all 
 ```
@@ -609,7 +610,7 @@ docker container ls --all
 - Сколько новых layers добавила сборка к базовому образу?
 - Когда и по какой причине остановился контейнер?
 - Сколько раз вы столкнулись с настройкой экстернализированной конфигурации приложения?
-- Какие приориеты у этих точек конфигурации?
+- Какие приориеты у этих точек конфигурации? # cmd -> env
 - Что случится при запуске контейнера с параметром командной строки `docker run ... --spring.profiles.active=preprod` ?
 
 Введение в контейнеризацию составного приложения (15)
