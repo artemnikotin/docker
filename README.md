@@ -548,9 +548,9 @@ cat backend/Dockerfile # check it for reference of new base/Dockerfile
 
 mkdir base
 nano base/Dockerfile #TODO describe image that based on CentOS fixed fresh available version and install java-1.8.0-openjdk-headless with `yum install -y`
-
-docker image build --tag {{ registry-account }}/base:1.0.0 ./base # where Dockerfile located
-docker image push {{ registry-account }}/base:1.0.0
+docker image build --tag artemnikotin/base:1.0.0 ./base
+docker container run --rm artemnikotin/base:1.0.0 java -version
+docker image push artemnikotin/base:1.0.0
 ```
 
 Hands-on practice quest #03-2: _simple_ application containerization (15+5)
